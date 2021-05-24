@@ -10,10 +10,6 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // TEST:
-  // key: UpyJZDm8DClqYTWYt2f5Kf8ht5gJeDNr
-  // id: Ua1d51b15-05cf-42a9-855c-b4ae1058f003
-
   Future<User> login(String key) async {
     user = User.fromJson(await FlaskRestApi.readUser(key));
     return user;
@@ -22,5 +18,9 @@ class UserProvider extends ChangeNotifier {
   void logout() {
     user = null;
     notifyListeners();
+  }
+
+  Future<String> register(User initUser) async {
+    return await FlaskRestApi.register(initUser.toJson());
   }
 }

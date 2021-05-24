@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:password_manager_r1/consts/responsive.dart';
 import 'package:password_manager_r1/models/password_data.dart';
+import 'package:password_manager_r1/providers/master_password.dart';
 import 'package:password_manager_r1/providers/password_data_provider.dart';
 import 'package:password_manager_r1/providers/user_provider.dart';
 import 'package:password_manager_r1/ui/pages/password_edit_page/password_edit_container.dart';
@@ -8,11 +9,53 @@ import 'package:password_manager_r1/ui/pages/password_edit_page/password_edit_pa
 import 'package:password_manager_r1/ui/pages/password_list_page/password_list_view.dart';
 import 'package:password_manager_r1/ui/pages/password_list_page/search_field.dart';
 import 'package:password_manager_r1/ui/widgets/dialogs/info_dialog.dart';
+import 'package:password_manager_r1/ui/widgets/password_text_field.dart';
 import 'package:provider/provider.dart';
 
 class PasswordListPage extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
-  void _enterMasterPassword() {}
+  void _enterMasterPassword(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController pwController = TextEditingController()..text = '';
+        return Dialog(
+          child: SizedBox(
+            height: 150,
+            child: Padding(
+              padding: EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  PasswordTextField(
+                    controller: pwController,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Provider.of<MasterPassword>(context, listen: false)
+                              .masterPassword = pwController.text;
+                          Navigator.pop(context);
+                        },
+                        child: Text('Confirm'),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+    Provider.of<PasswordDataProvider>(context, listen: false).trigger();
+  }
 
   void _logout(BuildContext context) async {
     try {
@@ -53,7 +96,7 @@ class PasswordListPage extends StatelessWidget {
           Tooltip(
             message: 'Re-enter master password',
             child: IconButton(
-              onPressed: _enterMasterPassword,
+              onPressed: () => _enterMasterPassword(context),
               icon: Icon(Icons.lock),
             ),
           )

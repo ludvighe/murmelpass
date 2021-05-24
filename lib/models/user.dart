@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class User {
-  User({@required this.key, this.name, this.email});
-  final String key;
+  User({this.key, this.name, this.email});
+  String key;
   String name;
   String email;
 

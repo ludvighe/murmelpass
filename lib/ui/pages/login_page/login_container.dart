@@ -6,6 +6,7 @@ import 'package:password_manager_r1/providers/master_password.dart';
 import 'package:password_manager_r1/providers/password_data_provider.dart';
 import 'package:password_manager_r1/providers/user_provider.dart';
 import 'package:password_manager_r1/ui/pages/password_list_page/password_list_page.dart';
+import 'package:password_manager_r1/ui/pages/user_page/register_container.dart';
 import 'package:password_manager_r1/ui/widgets/dialogs/info_dialog.dart';
 import 'package:password_manager_r1/ui/widgets/murmel_logo.dart';
 import 'package:password_manager_r1/ui/widgets/password_text_field.dart';
@@ -79,7 +80,13 @@ class _LoginContainerState extends State<LoginContainer> {
       }
     }
 
-    void _onRegister() {}
+    void _onRegister() {
+      showDialog(
+          context: context,
+          builder: (_) => Dialog(
+                child: RegisterContainer(),
+              ));
+    }
 
     return Container(
       padding: EdgeInsets.all(24.0),

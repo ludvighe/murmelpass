@@ -97,7 +97,9 @@ class PasswordDataProvider extends ChangeNotifier {
   void generatePassword(
       {String masterPassword,
       PasswordData passwordData,
+      User user,
       bool copyToClipboard = true}) {
+    update(user: user, passwordData: passwordData);
     Clipboard.setData(ClipboardData(
         text: Encryption.encryptSHA3FromData(masterPassword, passwordData)));
   }

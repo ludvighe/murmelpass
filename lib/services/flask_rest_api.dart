@@ -10,10 +10,11 @@ class FlaskRestApi {
   static String keyArg(String key) => '?key=' + key;
 
   //returns api key
-  static Future<String> register(Map<String, dynamic> payload) async {
+  static Future<String> register(String payload) async {
     http.Response response = await http.post(Uri.parse(baseUrl + '/register'),
         headers: headers, body: payload);
-    return response.body;
+    if (response.body.contains('error')) throw Exception(response.body);
+    return jsonDecode(response.body)['message'];
   }
 
   static Future<Map<String, dynamic>> readUser(String key) async {
@@ -49,7 +50,6 @@ class FlaskRestApi {
     String id,
     String json,
   ) async {
-    print(json);
     http.Response response = await http.put(
         Uri.parse(baseUrl + '/pwdata' + keyArg(key) + '&id=' + id),
         headers: headers,
