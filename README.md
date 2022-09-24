@@ -1,3 +1,5 @@
+_[deprecated](https://github.com/ludvighe/vispass)_
+
 # Murmelpass
 ---
 
